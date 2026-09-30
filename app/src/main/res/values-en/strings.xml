@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <!-- Sign names -->
+    <string name="horoscope_name_aries">Aries</string>
+    <string name="horoscope_name_tauro">Taurus</string>
+    <string name="horoscope_name_geminis">Gemini</string>
+    <string name="horoscope_name_cancer">Cancer</string>
+    <string name="horoscope_name_leo">Leo</string>
+    <string name="horoscope_name_virgo">Virgo</string>
+    <string name="horoscope_name_libra">Libra</string>
+    <string name="horoscope_name_escorpio">Scorpio</string>
+    <string name="horoscope_name_sagitario">Sagittarius</string>
+    <string name="horoscope_name_capricornio">Capricorn</string>
+    <string name="horoscope_name_acuario">Aquarius</string>
+    <string name="horoscope_name_piscis">Pisces</string>
+
+    <!-- Sign dates -->
+    <string name="horoscope_date_aries">March 21 – April 19</string>
+    <string name="horoscope_date_tauro">April 20 – May 20</string>
+    <string name="horoscope_date_geminis">May 21 – June 20</string>
+    <string name="horoscope_date_cancer">June 21 – July 22</string>
+    <string name="horoscope_date_leo">July 23 – August 22</string>
+    <string name="horoscope_date_virgo">August 23 – September 22</string>
+    <string name="horoscope_date_libra">September 23 – October 22</string>
+    <string name="horoscope_date_escorpio">October 23 – November 21</string>
+    <string name="horoscope_date_sagitario">November 22 – December 21</string>
+    <string name="horoscope_date_capricornio">December 22 – January 19</string>
+    <string name="horoscope_date_acuario">January 20 – February 18</string>
+    <string name="horoscope_date_piscis">February 19 – March 20</string>
+</resources>
