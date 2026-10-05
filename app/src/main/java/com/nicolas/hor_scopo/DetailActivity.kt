@@ -1,6 +1,8 @@
 package com.nicolas.hor_scopo
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,40 @@ class DetailActivity : AppCompatActivity() {
 
         val id = intent.getStringExtra("HOROSCOPE_ID")
 
-        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
+        supportActionBar?.title = id
+        supportActionBar?.subtitle = "Subtitulo"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.activity_detail_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle item selection.
+        return when (item.itemId) {
+
+            android.R.id.home -> {
+                finish()
+                true
+            }
+
+            R.id.menu_favorite -> {
+                //me hace una cosa
+                Toast.makeText(this, "Favorito", Toast.LENGTH_SHORT).show()
+
+                true
+            }
+
+            R.id.menu_share -> {
+                //me hace otra cosa
+                Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show()
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

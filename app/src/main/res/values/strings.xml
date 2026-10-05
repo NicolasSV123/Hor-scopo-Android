@@ -29,4 +29,7 @@
     <string name="horoscope_date_capricornio">22 de diciembre – 19 de enero</string>
     <string name="horoscope_date_acuario">20 de enero – 18 de febrero</string>
     <string name="horoscope_date_piscis">19 de febrero – 20 de marzo</string>
+    <string name="menu_search">Buscar</string>
+    <string name="menu_favorite">Favorito</string>
+    <string name="menu_share">Compartir</string>
 </resources>

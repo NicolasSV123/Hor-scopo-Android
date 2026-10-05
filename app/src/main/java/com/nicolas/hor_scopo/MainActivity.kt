@@ -2,6 +2,8 @@ package com.nicolas.hor_scopo
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -53,6 +55,25 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.activity_main_menu, menu)
+
+        val searchMenuItem = menu.findItem(R.id.search_menu)
+
+        val searchView = searchMenuItem.actionView as androidx.appcompat.widget.SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                return true
+            }
+        })
+
+        return true
     }
 }
