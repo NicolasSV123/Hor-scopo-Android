@@ -20,10 +20,12 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
-        val id = intent.getStringExtra("HOROSCOPE_ID")
+        val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
-        supportActionBar?.title = id
-        supportActionBar?.subtitle = "Subtitulo"
+        val horoscope = Horoscope.getByID(id)
+
+        supportActionBar?.setTitle(horoscope.name)
+        supportActionBar?.setSubtitle(horoscope.dates)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -44,14 +46,12 @@ class DetailActivity : AppCompatActivity() {
             R.id.menu_favorite -> {
                 //me hace una cosa
                 Toast.makeText(this, "Favorito", Toast.LENGTH_SHORT).show()
-
                 true
             }
 
             R.id.menu_share -> {
                 //me hace otra cosa
                 Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show()
-
                 true
             }
 
