@@ -1,5 +1,6 @@
 package com.nicolas.hor_scopo.activities
 
+import android.content.pm.PackageInstaller
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,8 +11,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.nicolas.hor_scopo.data.Horoscope
 import com.nicolas.hor_scopo.R
+import com.nicolas.hor_scopo.utils.SessionManager
 
 class DetailActivity : AppCompatActivity() {
+
+    lateinit var session: SessionManager
+
+    lateinit var horoscope: Horoscope
+    var isFavorite = false
+    lateinit var favoriteMenuItem: MenuItem
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -22,17 +31,26 @@ class DetailActivity : AppCompatActivity() {
             insets
         }
 
+        session = SessionManager(this)
+
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
-        val horoscope = Horoscope.getByID(id)
+        horoscope = Horoscope.getByID(id)
 
         supportActionBar?.setTitle(horoscope.name)
         supportActionBar?.setSubtitle(horoscope.dates)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        //Preguntar si el horosocopo es favorito
+        isFavorite = session.isFavorite(id)
+
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_detail_menu, menu)
+        //cambiar icono del menu
+        favoriteMenuItem = menu.findItem(R.id.menu_favorite)
+        setFavoriteIcon()
         return true
     }
 
@@ -46,18 +64,33 @@ class DetailActivity : AppCompatActivity() {
             }
 
             R.id.menu_favorite -> {
-                //me hace una cosa
-                Toast.makeText(this, "Favorito", Toast.LENGTH_SHORT).show()
+                //Se pregunta si el horoscopo es favorito o no para guardarlo en sesion o eliminarlo
+                if (isFavorite){
+                    session.setFavorite("")
+                } else {
+                    session.setFavorite(horoscope.id)
+                }
+                isFavorite = !isFavorite
+                //cambiar el icono del menu
                 true
             }
 
             R.id.menu_share -> {
-                //me hace otra cosa
-                Toast.makeText(this, "Compartir", Toast.LENGTH_SHORT).show()
+                //Menu compartir
                 true
             }
 
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    fun setFavoriteIcon () {
+        if (isFavorite){
+         //le asigno corazon relleno
+            favoriteMenuItem.setIcon(R.drawable.ic_favorite_select_24px)
+        } else {
+            //le asigno corazon vacio
+            favoriteMenuItem.setIcon(R.drawable.ic_favorite_24px)
         }
     }
 }
