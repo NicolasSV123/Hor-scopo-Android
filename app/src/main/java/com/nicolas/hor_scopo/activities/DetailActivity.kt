@@ -1,9 +1,12 @@
 package com.nicolas.hor_scopo.activities
 
+import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.nicolas.hor_scopo.data.Horoscope
 import com.nicolas.hor_scopo.R
 import com.nicolas.hor_scopo.utils.SessionManager
+import org.w3c.dom.Text
 
 class DetailActivity : AppCompatActivity() {
 
@@ -20,6 +24,12 @@ class DetailActivity : AppCompatActivity() {
     lateinit var horoscope: Horoscope
     var isFavorite = false
     lateinit var favoriteMenuItem: MenuItem
+
+    lateinit var signImageView: ImageView
+    lateinit var nameTextView: TextView
+    lateinit var datesTextView: TextView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +43,10 @@ class DetailActivity : AppCompatActivity() {
 
         session = SessionManager(this)
 
+        signImageView = findViewById(R.id.signImageView)
+        nameTextView = findViewById(R.id.nameTextView)
+        datesTextView = findViewById(R.id.datesTextView)
+
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
         horoscope = Horoscope.getByID(id)
@@ -40,6 +54,10 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.setTitle(horoscope.name)
         supportActionBar?.setSubtitle(horoscope.dates)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        nameTextView.setText(horoscope.name)
+        datesTextView.setText(horoscope.dates)
+        signImageView.setImageResource(horoscope.sign)
 
         //Preguntar si el horosocopo es favorito
         isFavorite = session.isFavorite(id)
@@ -76,7 +94,14 @@ class DetailActivity : AppCompatActivity() {
             }
 
             R.id.menu_share -> {
-                //Menu compartir
+                //Menu comparti
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my horoscope: ${getString(horoscope.name)}")
+                sendIntent.type = "text/plain"
+
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                startActivity(shareIntent)
                 true
             }
 
