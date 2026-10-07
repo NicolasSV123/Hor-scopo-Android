@@ -1,4 +1,4 @@
-package com.nicolas.hor_scopo
+package com.nicolas.hor_scopo.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.nicolas.hor_scopo.R
+import com.nicolas.hor_scopo.data.Horoscope
 
 class HoroscopeAdapter(
     var items: List<Horoscope>,

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <string name="app_name">Horoscope</string>
+
     <!-- Sign names -->
     <string name="horoscope_name_aries">Aries</string>
     <string name="horoscope_name_tauro">Taurus</string>

@@ -1,4 +1,4 @@
-package com.nicolas.hor_scopo
+package com.nicolas.hor_scopo.activities
 
 import android.os.Bundle
 import android.view.Menu
@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.nicolas.hor_scopo.data.Horoscope
+import com.nicolas.hor_scopo.R
 
 class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

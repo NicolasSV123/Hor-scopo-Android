@@ -1,16 +1,18 @@
-package com.nicolas.hor_scopo
+package com.nicolas.hor_scopo.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import androidx.appcompat.widget.SearchView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.nicolas.hor_scopo.data.Horoscope
+import com.nicolas.hor_scopo.adapters.HoroscopeAdapter
+import com.nicolas.hor_scopo.R
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             val horoscope = horoscopeList[position]
             //Navegar al signo clickado
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra("HOROSCOPE_ID",horoscope.id)
+            intent.putExtra("HOROSCOPE_ID", horoscope.id)
             startActivity(intent)
         }
 
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         val searchMenuItem = menu.findItem(R.id.search_menu)
 
-        val searchView = searchMenuItem.actionView as androidx.appcompat.widget.SearchView
+        val searchView = searchMenuItem.actionView as SearchView
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
