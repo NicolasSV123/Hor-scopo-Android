@@ -46,11 +46,6 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        adapter.notifyDataSetChanged()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_main_menu, menu)
@@ -76,4 +71,11 @@ class MainActivity : AppCompatActivity() {
 
         return true
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        adapter.notifyDataSetChanged()
+    }
+
 }

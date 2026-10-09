@@ -3,6 +3,7 @@ package com.nicolas.hor_scopo.activities
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -15,7 +16,17 @@ import androidx.core.view.WindowInsetsCompat
 import com.nicolas.hor_scopo.data.Horoscope
 import com.nicolas.hor_scopo.R
 import com.nicolas.hor_scopo.utils.SessionManager
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.json.JSONObject
 import org.w3c.dom.Text
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 class DetailActivity : AppCompatActivity() {
 
@@ -28,6 +39,8 @@ class DetailActivity : AppCompatActivity() {
     lateinit var signImageView: ImageView
     lateinit var nameTextView: TextView
     lateinit var datesTextView: TextView
+    lateinit var predictionTextView: TextView
+    lateinit var bottomNavigationView: MenuItem
 
 
 
@@ -46,6 +59,8 @@ class DetailActivity : AppCompatActivity() {
         signImageView = findViewById(R.id.signImageView)
         nameTextView = findViewById(R.id.nameTextView)
         datesTextView = findViewById(R.id.datesTextView)
+        predictionTextView = findViewById(R.id.predictionTextView)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
 
@@ -62,7 +77,24 @@ class DetailActivity : AppCompatActivity() {
         //Preguntar si el horosocopo es favorito
         isFavorite = session.isFavorite(id)
 
+        getHoroscopePrediction()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val prediction = getHoroscopePrediction()
+            CoroutineScope(Dispatchers.Main).launch {
+             predictionTextView.text = prediction
+            }
+        }
+        bottomNavigationView.setOnMenuItemClickListener { item ->
+            when(item.itemId){
+                R.id.menu_daily -> {
+
+                }
+            }
+        }
+
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.activity_detail_menu, menu)
@@ -89,6 +121,7 @@ class DetailActivity : AppCompatActivity() {
                     session.setFavorite(horoscope.id)
                 }
                 isFavorite = !isFavorite
+                invalidateOptionsMenu()
                 //cambiar el icono del menu
                 true
             }
@@ -118,4 +151,48 @@ class DetailActivity : AppCompatActivity() {
             favoriteMenuItem.setIcon(R.drawable.ic_favorite_24px)
         }
     }
+
+    fun getHoroscopePrediction(period: String = "") {
+        CoroutineScope(Dispatchers.IO).launch {
+
+        val urlGetRequest = URL("https://freehoroscopeapi.com/api/v1/get-horoscope/$period?sign=${horoscope.id}")
+
+        val apiConnection = urlGetRequest.openConnection() as HttpURLConnection
+
+        apiConnection.setRequestMethod("GET")
+
+        try {
+            val responseCode = apiConnection.getResponseCode()
+
+            if (responseCode == HttpURLConnection.HTTP_OK){
+                val response = readImputStream(apiConnection.getInputStream())
+                Log.i("API REST", response)
+
+                result = JSONObject(response).getJSONObject("data").getString("horoscope")
+                CoroutineScope((Dispatchers.Main).launch {
+
+                }
+            } else {
+                Log.w("API REST", "StatusCode: $responseCode")
+                null
+            }
+            } catch (e: Exception){
+                Log.e("API REST", e.localizedMessage, e)
+            } finally {
+                apiConnection.disconnect()
+            }
+            return result
+        }
+    fun readImputStream(inputStream: InputStream): String {
+        val `in` = BufferedReader(InputStreamReader(inputStream))
+        val response = StringBuffer()
+        var inputLine: String? = null
+
+        while ((`in`.readLine().also { inputLine = it }) != null) {
+            response.append(inputLine)
+        }
+        `in`.close()
+        return response.toString()
+    } }
 }
+
